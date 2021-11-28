@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="LiveMusicPlayer.Views.MusicList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LiveMusicPlayer.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <ListView 
+        HorizontalAlignment="Stretch"
+        MouseDown="musicList_MouseDown"
+        x:Name="musicList"
+        >
+        <ListView.ItemContainerStyle>
+            <Style TargetType="ListViewItem">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            </Style>
+        </ListView.ItemContainerStyle>
+        
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <Border
+                    MouseDown="Border_MouseDown"
+                    BorderBrush="LightGray"
+                    MinHeight="30"
+                    BorderThickness="1"
+                    Padding="10"
+                    >
+
+                    <StackPanel
+                        >
+                        <TextBlock
+                            Text="{Binding MusicName}"/>
+                        <TextBlock
+                            Text="{Binding MusicPath}"
+                            Visibility="Collapsed"
+                            />
+                    </StackPanel>
+
+                </Border>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</UserControl>
