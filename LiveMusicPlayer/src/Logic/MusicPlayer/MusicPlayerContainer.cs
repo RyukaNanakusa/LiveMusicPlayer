@@ -12,18 +12,17 @@ namespace LiveMusicPlayer.src.Logic.MusicPlayer
         {}
 
         private static IMusicPlayer _musicPlayer = new NoneMusicPlayer();
-
-        public static IMusicPlayer GetMusicPlayer() => _musicPlayer;
-        
-        public static void SetMusicPlayer(IMusicPlayer player)
+        public static IMusicPlayer MusicPlayer
         {
-            var isPlaying = _musicPlayer.IsPlaying();
-            if (isPlaying)
+            get => _musicPlayer;
+            set
             {
-                _musicPlayer.StopMusic();
+                if (_musicPlayer.IsPlaying())
+                {
+                    _musicPlayer.StopMusic();
+                }
+                _musicPlayer = value;
             }
-            _musicPlayer = null;
-            _musicPlayer = player;
         }
 
 

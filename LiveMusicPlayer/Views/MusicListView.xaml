@@ -8,7 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <ListView 
         HorizontalAlignment="Stretch"
-        MouseDown="musicList_MouseDown"
+
         x:Name="musicList"
         >
         <ListView.ItemContainerStyle>
@@ -20,7 +20,7 @@
         <ListView.ItemTemplate>
             <DataTemplate>
                 <Border
-                    MouseDown="Border_MouseDown"
+                    MouseDown="OnMouseDownSelectedMusic"
                     BorderBrush="LightGray"
                     MinHeight="30"
                     BorderThickness="1"

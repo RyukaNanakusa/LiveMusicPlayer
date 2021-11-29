@@ -1,6 +1,7 @@
 ﻿using LiveMusicPlayer.logic.musicCollector;
 using LiveMusicPlayer.src.Logic.MusicPlayer;
 using LiveMusicPlayer.src.ModelView;
+using LiveMusicPlayer.src.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -42,35 +43,28 @@ namespace LiveMusicPlayer.Views
 
         }
 
-        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            
-            var list = musicList.Items;
-            var index = list.IndexOf(sender);
-            
-        }
 
-        private void musicList_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Debug.WriteLine(sender);
-        }
 
-        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        private void OnMouseDownSelectedMusic(object sender, MouseButtonEventArgs e)
         {
+
             var border = sender as Border;
-            var musicPath = GetMusicPathByItemRoot(border);
-            
-            MusicPlayerContainer.SetMusicPlayer(new LocalMusicPlayer(musicPath));
-            var musicPlayer = MusicPlayerContainer.GetMusicPlayer();
-     
+            var (musicTitle, musicPath) = GetMusicPathByItemRoot(border);
+
+            MusicPlayerContainer.MusicPlayer = new LocalMusicPlayer(musicPath);
+            var musicPlayer = MusicPlayerContainer.MusicPlayer;
+            var seekBarViewModel = SeekBarViewModel.Instance;
+            seekBarViewModel.init();
+            seekBarViewModel.MusicTitle = musicTitle;
             musicPlayer.PlayMusic();
         }
 
-        private string GetMusicPathByItemRoot(Border root)
+        private (string, string) GetMusicPathByItemRoot(Border root)
         {
             var pannel = root.Child as StackPanel;
+            var musicTitle = pannel.Children[0] as TextBlock;
             var musicPath = pannel.Children[1] as TextBlock;
-            return musicPath.Text;
+            return (musicTitle.Text, musicPath.Text);
         }
     }
 }

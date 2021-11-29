@@ -34,5 +34,8 @@ namespace LiveMusicPlayer.src.Logic.MusicPlayer
         /// 曲の最後まで移動
         /// </summary>
         public void SeekToEnd();
+
+        public void SeekToPercent(double percent);
+
     }
 }

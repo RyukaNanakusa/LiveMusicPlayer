@@ -23,24 +23,21 @@ namespace LiveMusicPlayer.Views
     public partial class SeekBarControl : UserControl
     {
         private SeekBarViewModel _viewModel;
+        private bool _isDrag = true;
 
         public SeekBarControl()
         {
             InitializeComponent();
-            
-            this._viewModel = new SeekBarViewModel();
+
+            this._viewModel = SeekBarViewModel.Instance;
             this.DataContext = this._viewModel;
         }
 
-        private void OnClickStartMusic(object sender, MouseButtonEventArgs e)
-        {
-   
-        }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void OnClickPlayMusic(object sender, RoutedEventArgs e)
         {
 
-            var mp = MusicPlayerContainer.GetMusicPlayer();
+            var mp = MusicPlayerContainer.MusicPlayer;
             if (mp.IsPlaying())
             {
                 mp.PouseMusic();
@@ -54,14 +51,31 @@ namespace LiveMusicPlayer.Views
 
         private void OnClickSeekToStart(object sender, RoutedEventArgs e)
         {
-            var mp = MusicPlayerContainer.GetMusicPlayer();
+            var mp = MusicPlayerContainer.MusicPlayer;
             mp.SeekToStart();
         }
 
         private void OnClickSeekToEnd(object sender, RoutedEventArgs e)
         {
-            var mp = MusicPlayerContainer.GetMusicPlayer();
+            var mp = MusicPlayerContainer.MusicPlayer;
             mp.SeekToEnd();
+        }
+
+        private void OnChangeMusicVolume(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (_isDrag) return;
+            double seekPercent = e.NewValue;
+            var mp = MusicPlayerContainer.MusicPlayer;
+            mp.SeekToTargetPos(seekPercent);
+            this._isDrag = true;
+        }
+
+   
+
+        private void Slider_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        {
+         
+            this._isDrag = false;
         }
     }
 }

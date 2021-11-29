@@ -20,18 +20,18 @@ namespace LiveMusicPlayer.logic.musicCollector
         {
             if (!Directory.Exists(this._musicDirectoryPath))
             {
-                throw new Exception("NOt Found Music Directory");
+                throw new Exception(message: "Not Found Music Directory");
             }
 
-            var files =  Directory
+            FileInfo[] files =  Directory
                 .CreateDirectory(this._musicDirectoryPath)
                 .GetFiles();
-
+           
             return files
                 .Where(f => f.Extension == ".mp3")
                 .Select(f => new MusicListModel()
             {
-                MusicName = f.Name,
+                MusicName = Path.GetFileNameWithoutExtension(f.Name),
                 MusicPath = f.FullName
             }).ToList();
         }

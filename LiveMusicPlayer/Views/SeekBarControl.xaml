@@ -9,7 +9,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="82*"/>
-            <RowDefinition Height="143*"/>
+            <RowDefinition Height="45*"/>
+
         </Grid.RowDefinitions>
         <StackPanel
             Grid.Row="0"
@@ -26,21 +27,42 @@
                 Content="再生" 
                 Width="30"
                 Height="30"
-                Click="Button_Click"
+                Click="OnClickPlayMusic"
                 />
-            
+
             <Button
                 Content="最後"
                 Height="30"
                 Click="OnClickSeekToEnd"
                 />
         </StackPanel>
-        <TextBlock HorizontalAlignment="Left" 
-                   Grid.Row="1" 
-                   Foreground="AliceBlue"
-                   Text="{Binding MusicTitle}" 
-                   TextWrapping="Wrap"
-                   VerticalAlignment="Top"/>
+
+
+        <Grid
+            Grid.Row="1" 
+            >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <TextBlock 
+                Grid.Row="0"
+                HorizontalAlignment="Left" 
+                Foreground="AliceBlue"
+                Text="{Binding MusicTitle}" 
+                TextWrapping="Wrap"
+                VerticalAlignment="Top"/>
+            <Slider 
+                Minimum="0"
+                Maximum="{Binding MaxDuration}"
+                Value="{Binding SeekBarPos}"
+                Grid.Row="1"
+                Thumb.DragCompleted="Slider_DragCompleted"
+
+                ValueChanged="OnChangeMusicVolume"
+                />
+        </Grid>
+
 
     </Grid>
 </UserControl>

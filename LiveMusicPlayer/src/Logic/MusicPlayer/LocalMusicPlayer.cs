@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿
+using LiveMusicPlayer.src.ViewModel;
+using System.Diagnostics;
+
+using System.Threading;
 using System.Threading.Tasks;
 using WMPLib;
 
@@ -12,7 +13,8 @@ namespace LiveMusicPlayer.src.Logic.MusicPlayer
 
         private  WindowsMediaPlayer _mediaPlayer;
         private bool _isPlay = false;
-
+        public static bool isDrag = false;
+        private double sec = 0.0;
         public LocalMusicPlayer(string musicPath)
         {
             this._mediaPlayer = new WindowsMediaPlayer();
@@ -21,14 +23,33 @@ namespace LiveMusicPlayer.src.Logic.MusicPlayer
 
         public void PlayMusic()
         {
+            this.sec = 0.0;
             this._mediaPlayer.controls.play();
+
+   
+            
+            Task.Run(() =>
+            {
+          
+                Thread.Sleep(1000);
+                var vm = SeekBarViewModel.Instance;
+                var maxDuration = this._mediaPlayer.currentMedia.duration;
+                vm.MaxDuration = maxDuration;
+                
+                for(; sec < maxDuration; sec++)
+                {
+                       
+                    vm.SeekBarPos = sec;
+                    Thread.Sleep(1000);
+                }
+            });
+
             this._isPlay = true;
         }
 
         public void StopMusic()
         {
             this._mediaPlayer.controls.stop();
-            this._mediaPlayer.close();
             this._isPlay = false;
         }
 
@@ -49,9 +70,15 @@ namespace LiveMusicPlayer.src.Logic.MusicPlayer
             SeekToTargetPos(0.0);     
         }
 
+        public void SeekToPercent(double percent)
+        {
+            this.SeekToTargetPos(this._mediaPlayer.currentMedia.duration * percent);
+        }
+
         public void SeekToTargetPos(double position)
         {
             this._mediaPlayer.controls.currentPosition = position;
+            this.sec = position;
         }
 
         public void SeekToEnd()

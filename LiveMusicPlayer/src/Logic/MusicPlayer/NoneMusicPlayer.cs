@@ -28,6 +28,11 @@ namespace LiveMusicPlayer.src.Logic.MusicPlayer
 
         }
 
+        public void SeekToPercent(double percent)
+        {
+            throw new NotImplementedException();
+        }
+
         public void SeekToStart()
         {
             
