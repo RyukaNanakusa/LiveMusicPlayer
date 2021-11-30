@@ -1,9 +1,11 @@
 ﻿
 using LiveMusicPlayer.src.ViewModel;
+using System;
 using System.Diagnostics;
 
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using WMPLib;
 
 namespace LiveMusicPlayer.src.Logic.MusicPlayer
@@ -24,8 +26,10 @@ namespace LiveMusicPlayer.src.Logic.MusicPlayer
         private bool _isPlay = false;
         public static bool isDrag = false;
         private double sec = 0.0;
-        public LocalMusicPlayer(string musicPath)
+        private Dispatcher _dispatcherObject;
+        public LocalMusicPlayer(string musicPath, Dispatcher dispacher)
         {
+            this._dispatcherObject = dispacher;
             this._mediaPlayer = new WindowsMediaPlayer();
             this._mediaPlayer.URL = musicPath;
             this._mediaPlayer.settings.volume = 25;
@@ -33,25 +37,32 @@ namespace LiveMusicPlayer.src.Logic.MusicPlayer
 
         public void PlayMusic()
         {
-            this.sec = 0.0;
+
             this._mediaPlayer.controls.play();
             this._isPlay = true;
 
+            
 
+     
             Task.Run(() =>
             {
-          
                 Thread.Sleep(1000);
                 var vm = SeekBarViewModel.Instance;
+             
                 var maxDuration = this._mediaPlayer.currentMedia.duration;
                 vm.MaxDuration = maxDuration;
-                
-                while(_isPlay)
+                vm.MaxPlayBackTime = this._mediaPlayer.currentMedia.durationString;
+                while (_isPlay)
                 {
-                       
-                    vm.SeekBarPos = this._mediaPlayer.controls.currentPosition;
+                    this._dispatcherObject.Invoke(() =>
+                    {
+                        vm.CurrentPlayBackTime = this._mediaPlayer.controls.currentPositionString;
+                        vm.SeekBarPos = this._mediaPlayer.controls.currentPosition;
+                    });
+                   
                     Thread.Sleep(100);
                 }
+
             });
 
             
@@ -88,7 +99,7 @@ namespace LiveMusicPlayer.src.Logic.MusicPlayer
         public void SeekToTargetPos(double position)
         {
             this._mediaPlayer.controls.currentPosition = position;
-            this.sec = position;
+
         }
 
         public void SeekToEnd()

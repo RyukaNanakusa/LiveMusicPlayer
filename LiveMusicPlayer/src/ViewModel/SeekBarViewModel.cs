@@ -14,7 +14,6 @@ namespace LiveMusicPlayer.src.ViewModel
 
         }
 
-        private bool _isDrag = false;
 
         private readonly static SeekBarViewModel _instance = new SeekBarViewModel();
         
@@ -41,6 +40,27 @@ namespace LiveMusicPlayer.src.ViewModel
             get { return _seekBarPos; }
             set => this.SetProperty(ref _seekBarPos, value);
         }
+
+        // 現在の再生時間
+        private string _currentPlaybackTime = "";
+
+        public string CurrentPlayBackTime
+        {
+            get { return this._currentPlaybackTime; }
+            set => this.SetProperty(ref _currentPlaybackTime, value);
+        }
+
+
+
+        // 最大の再生時間
+        private string _maxPlaybackTime = "";
+
+        public string MaxPlayBackTime
+        {
+            get { return this._maxPlaybackTime; }
+            set => this.SetProperty(ref _maxPlaybackTime, value);
+        }
+
 
         private string _musicTitle = "";
         public string MusicTitle

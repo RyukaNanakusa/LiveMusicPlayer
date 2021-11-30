@@ -52,7 +52,7 @@ namespace LiveMusicPlayer.Views
             var border = sender as Border;
             var (musicTitle, musicPath) = GetMusicPathByItemRoot(border);
 
-            MusicPlayerContainer.MusicPlayer = new LocalMusicPlayer(musicPath);
+            MusicPlayerContainer.MusicPlayer = new LocalMusicPlayer(musicPath, Dispatcher);
             var musicPlayer = MusicPlayerContainer.MusicPlayer;
             var seekBarViewModel = SeekBarViewModel.Instance;
             seekBarViewModel.init();

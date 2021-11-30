@@ -41,6 +41,11 @@
         <Grid
             Grid.Row="1" 
             >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="2*"/>
@@ -51,17 +56,33 @@
                 Foreground="AliceBlue"
                 Text="{Binding MusicTitle}" 
                 TextWrapping="Wrap"
-                VerticalAlignment="Top"/>
-            <Slider 
-                Name="SeekBar"
-                Minimum="0"
-                Maximum="{Binding MaxDuration}"
-                Value="{Binding SeekBarPos}"
-                Grid.Row="1"
-                Thumb.DragCompleted="Slider_DragCompleted"
-                Thumb.DragStarted="SeekBar_DragStarted"
-                ValueChanged="OnChangeMusicVolume"
+                VerticalAlignment="Top" Height="16" Width="0"/>
+            <!-- 現在の再生時間-->
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"   
+                Foreground="White"
+                HorizontalAlignment="Right"
+                Text="{Binding CurrentPlayBackTime}"
                 />
+            <!-- 再生時間のシークバー -->
+            <Slider
+                    Minimum="0"
+                    Maximum="{Binding MaxDuration}"
+                    Value="{Binding SeekBarPos}"
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Thumb.DragCompleted="Slider_DragCompleted"
+                    Thumb.DragStarted="SeekBar_DragStarted"
+                    ValueChanged="OnChangeMusicVolume"/>
+            <!-- 最大の再生時間の長さ -->
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="2"
+                Foreground="White"
+                Text="{Binding MaxPlayBackTime}"
+                />
+
         </Grid>
 
 
