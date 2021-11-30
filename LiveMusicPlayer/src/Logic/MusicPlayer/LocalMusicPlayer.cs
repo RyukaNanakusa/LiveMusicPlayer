@@ -28,15 +28,16 @@ namespace LiveMusicPlayer.src.Logic.MusicPlayer
         {
             this._mediaPlayer = new WindowsMediaPlayer();
             this._mediaPlayer.URL = musicPath;
+            this._mediaPlayer.settings.volume = 25;
         }
 
         public void PlayMusic()
         {
             this.sec = 0.0;
             this._mediaPlayer.controls.play();
+            this._isPlay = true;
 
-   
-            
+
             Task.Run(() =>
             {
           
@@ -45,15 +46,15 @@ namespace LiveMusicPlayer.src.Logic.MusicPlayer
                 var maxDuration = this._mediaPlayer.currentMedia.duration;
                 vm.MaxDuration = maxDuration;
                 
-                for(; sec < maxDuration; sec++)
+                while(_isPlay)
                 {
                        
-                    vm.SeekBarPos = sec;
-                    Thread.Sleep(1000);
+                    vm.SeekBarPos = this._mediaPlayer.controls.currentPosition;
+                    Thread.Sleep(100);
                 }
             });
 
-            this._isPlay = true;
+            
         }
 
         public void StopMusic()
