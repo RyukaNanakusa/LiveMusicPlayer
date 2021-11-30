@@ -53,12 +53,13 @@
                 TextWrapping="Wrap"
                 VerticalAlignment="Top"/>
             <Slider 
+                Name="SeekBar"
                 Minimum="0"
                 Maximum="{Binding MaxDuration}"
                 Value="{Binding SeekBarPos}"
                 Grid.Row="1"
                 Thumb.DragCompleted="Slider_DragCompleted"
-
+                Thumb.DragStarted="SeekBar_DragStarted"
                 ValueChanged="OnChangeMusicVolume"
                 />
         </Grid>
