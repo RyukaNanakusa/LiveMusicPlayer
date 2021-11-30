@@ -50,22 +50,24 @@ namespace LiveMusicPlayer.Views
         {
 
             var border = sender as Border;
-            var (musicTitle, musicPath) = GetMusicPathByItemRoot(border);
+            var (musicTitle, musicPath, artist) = GetMusicPathByItemRoot(border);
 
             MusicPlayerContainer.MusicPlayer = new LocalMusicPlayer(musicPath, Dispatcher);
             var musicPlayer = MusicPlayerContainer.MusicPlayer;
             var seekBarViewModel = SeekBarViewModel.Instance;
             seekBarViewModel.init();
             seekBarViewModel.MusicTitle = musicTitle;
+            seekBarViewModel.Artist = artist;
             musicPlayer.PlayMusic();
         }
 
-        private (string, string) GetMusicPathByItemRoot(Border root)
+        private (string, string, string) GetMusicPathByItemRoot(Border root)
         {
             var pannel = root.Child as StackPanel;
             var musicTitle = pannel.Children[0] as TextBlock;
             var musicPath = pannel.Children[1] as TextBlock;
-            return (musicTitle.Text, musicPath.Text);
+            var artist = pannel.Children[2] as TextBlock;
+            return (musicTitle.Text, musicPath.Text, artist.Text);
         }
     }
 }

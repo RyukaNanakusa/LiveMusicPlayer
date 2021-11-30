@@ -10,6 +10,7 @@ namespace LiveMusicPlayer.src.ModelView
     {
         public string MusicName { get; set; }
         public string MusicPath { get; set; }
+        public string Artist { get; set; }
 
         public override string ToString()
         {

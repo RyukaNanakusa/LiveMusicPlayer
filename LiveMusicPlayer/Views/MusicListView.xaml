@@ -35,6 +35,10 @@
                             Text="{Binding MusicPath}"
                             Visibility="Collapsed"
                             />
+                        <TextBlock
+                            Text="{Binding Artist}"
+                            Visibility="Collapsed"
+                            />
                     </StackPanel>
 
                 </Border>

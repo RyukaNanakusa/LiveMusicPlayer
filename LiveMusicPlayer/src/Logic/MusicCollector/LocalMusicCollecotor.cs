@@ -16,6 +16,7 @@ namespace LiveMusicPlayer.logic.musicCollector
             this._musicDirectoryPath = musicDirectoryPath;
         }
 
+        [Obsolete]
         public List<MusicListModel> CollectMusic()
         {
             if (!Directory.Exists(this._musicDirectoryPath))
@@ -23,17 +24,22 @@ namespace LiveMusicPlayer.logic.musicCollector
                 throw new Exception(message: "Not Found Music Directory");
             }
 
-            FileInfo[] files =  Directory
+            FileInfo[] files = Directory
                 .CreateDirectory(this._musicDirectoryPath)
                 .GetFiles();
-           
+
             return files
                 .Where(f => f.Extension == ".mp3")
-                .Select(f => new MusicListModel()
-            {
-                MusicName = Path.GetFileNameWithoutExtension(f.Name),
-                MusicPath = f.FullName
-            }).ToList();
+                .Select(f => {
+                    var meta = TagLib.File.Create(f.FullName);
+                    return new MusicListModel()
+                    {
+                        Artist = meta.Tag.FirstArtist,
+                        MusicName = Path.GetFileNameWithoutExtension(f.Name),
+                        MusicPath = f.FullName
+                    };
+                 })
+                .ToList();
         }
     }
 }

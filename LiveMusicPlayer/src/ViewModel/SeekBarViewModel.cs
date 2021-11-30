@@ -54,19 +54,26 @@ namespace LiveMusicPlayer.src.ViewModel
 
         // 最大の再生時間
         private string _maxPlaybackTime = "";
-
         public string MaxPlayBackTime
         {
             get { return this._maxPlaybackTime; }
             set => this.SetProperty(ref _maxPlaybackTime, value);
         }
 
-
+        // ミュージックタイトル
         private string _musicTitle = "";
         public string MusicTitle
         {
             get => this._musicTitle;
             set => SetProperty(ref _musicTitle, value);
+        }
+
+        // アーティスト
+        private string _artist = "";
+        public string Artist
+        {
+            get => this._artist;
+            set => SetProperty(ref _artist, value);
         }
     }
 }
