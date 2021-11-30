@@ -31,8 +31,8 @@ namespace LiveMusicPlayer.Views
         public MusicList()
         {
             InitializeComponent();
-            //var collector = new LocalMusicCollecotor(@"C:\Users\elmga\Music");
-            var collector = new LocalMusicCollecotor(@"D:\mu");
+            var collector = new LocalMusicCollecotor(@"C:\Users\elmga\Music");
+            //var collector = new LocalMusicCollecotor(@"D:\mu");
 
             var musics = collector.CollectMusic();
 
