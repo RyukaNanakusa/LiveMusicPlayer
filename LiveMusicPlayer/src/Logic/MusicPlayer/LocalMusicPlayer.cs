@@ -10,15 +10,7 @@ using WMPLib;
 
 namespace LiveMusicPlayer.src.Logic.MusicPlayer
 {
-    /// <summary>
-    /// TODO  
-    /// 再生中はシークバーを自動で再生時間に合わせるようにしたい
-    /// しかし、ユーザーがシークバーを動かすとOnvalueChangeの処理によりうまく動かなくなる.
-    ///。
-    /// 現在は再生時間をシークバーに反映させる処理を
-    /// 現在別スレッドで一秒おきにカウントを進めて
-    /// それをシークバーに反映させているが、理想は再生時間が変更されるたびにイベントを呼び出すような処理が望ましい？
-    /// </summary>
+
     public class LocalMusicPlayer : IMusicPlayer
     {
 
@@ -41,14 +33,17 @@ namespace LiveMusicPlayer.src.Logic.MusicPlayer
             this._mediaPlayer.controls.play();
             this._isPlay = true;
 
-            
 
-     
-            Task.Run(() =>
+            SeekMusiAsync();
+        }
+
+        private async Task SeekMusiAsync()
+        {
+            await Task.Run(() =>
             {
                 Thread.Sleep(1000);
                 var vm = SeekBarViewModel.Instance;
-             
+
                 var maxDuration = this._mediaPlayer.currentMedia.duration;
                 vm.MaxDuration = maxDuration;
                 vm.MaxPlayBackTime = this._mediaPlayer.currentMedia.durationString;
@@ -59,15 +54,13 @@ namespace LiveMusicPlayer.src.Logic.MusicPlayer
                         vm.CurrentPlayBackTime = this._mediaPlayer.controls.currentPositionString;
                         vm.SeekBarPos = this._mediaPlayer.controls.currentPosition;
                     });
-                   
+
                     Thread.Sleep(100);
                 }
-
             });
 
-            
-        }
 
+        }
         public void StopMusic()
         {
             this._mediaPlayer.controls.stop();

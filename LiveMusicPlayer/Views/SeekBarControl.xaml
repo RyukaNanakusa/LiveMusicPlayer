@@ -43,12 +43,15 @@
             <!-- 再生時間のシークバー -->
             <Slider
                     Minimum="0"
+                    Slider.IsMoveToPointEnabled="true"
                     Maximum="{Binding MaxDuration}"
                     Value="{Binding SeekBarPos}"
                     Grid.Column="1"
                     Grid.Row="0"
                     Thumb.DragCompleted="Slider_DragCompleted"
                     Thumb.DragStarted="SeekBar_DragStarted"
+                    PreviewMouseDown="Slider_PreviewMouseDown"
+                    PreviewMouseUp="Slider_PreviewMouseUp"
                     ValueChanged="OnChangeMusicVolume"/>
             <!-- 最大の再生時間の長さ -->
             <TextBlock
